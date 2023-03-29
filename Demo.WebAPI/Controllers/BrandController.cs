@@ -54,9 +54,14 @@ namespace Demo.WebAPI.Controllers
       var brand = await _dbContext.Brands.FindAsync(id);
       if(brand != null)
       {
-        brand.Name = updateBrand.Name;
-        brand.Category = updateBrand.Category;
-        brand.Model = updateBrand.Model;
+        if(updateBrand.Name != null)
+          brand.Name = updateBrand.Name;
+
+        if (updateBrand.Category != null)
+          brand.Category = updateBrand.Category;
+
+        if(updateBrand.Model !=  null)
+          brand.Model = updateBrand.Model;
 
         await _dbContext.SaveChangesAsync();
 
