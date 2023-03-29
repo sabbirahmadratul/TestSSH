@@ -25,7 +25,7 @@ namespace Demo.WebAPI.Controllers
       return await _dbContext.Brands.ToListAsync();
     }
 
-    [HttpGet("{id")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<Brand>> GetBrand(int id)
     {
       if (_dbContext.Brands == null)
@@ -47,6 +47,22 @@ namespace Demo.WebAPI.Controllers
       await _dbContext.SaveChangesAsync();
 
       return CreatedAtAction(nameof(GetBrand), new { id = brand.ID }, brand);
+    }
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Brand>> UpdateBrand(UpdateBrand updateBrand, int id)
+    {
+      var brand = await _dbContext.Brands.FindAsync(id);
+      if(brand != null)
+      {
+        brand.Name = updateBrand.Name;
+        brand.Category = updateBrand.Category;
+        brand.Model = updateBrand.Model;
+
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(brand);
+      }
+      return NotFound();
     }
   }
 }
